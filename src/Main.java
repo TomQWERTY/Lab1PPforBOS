@@ -14,8 +14,9 @@ public class Main {
         System.out.println(singleThreadSum);
 
         //multi thread sum calculation
-        int threadCount = 10;
-        MainThread mainThread = new MainThread(mas, threadCount);
+        int threadCount = 6;
+        int partCount = 10;
+        MainThread mainThread = new MainThread(mas, threadCount, partCount);
         mainThread.Start();
         System.out.println("Сума в багатопоточному режимі:");
         System.out.println(mainThread.getSum());
