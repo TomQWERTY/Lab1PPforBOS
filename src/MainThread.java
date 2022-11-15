@@ -3,7 +3,6 @@ import java.util.concurrent.CyclicBarrier;
 public class MainThread {
     private long sum;
     private int threadCount;
-    private int finishedPartCount = 0;
     private int partCount;
     private int size;
     private int[] mas;
@@ -53,20 +52,16 @@ public class MainThread {
         }
 
         //waiting for threads to finish
-        //while (finishedPartCount < partCount){
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        //}
+        try {
+            wait();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
     synchronized public void setPartSum(long partSum){
         sum = sum + partSum;
-        //finishedPartCount++;
-        //notify();
     }
 
     synchronized public int GetFreePart(){
