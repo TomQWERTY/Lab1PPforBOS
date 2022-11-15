@@ -1,3 +1,5 @@
+import java.util.concurrent.CyclicBarrier;
+
 public class SumCalculatorWithInterface implements Runnable {
     long partSum = 0;
     int[] mas;
@@ -26,5 +28,6 @@ public class SumCalculatorWithInterface implements Runnable {
             partNum = newPart;
         }
         while (newPart != -1);
+        mainThread.AwaitBarrier();
     }
 }

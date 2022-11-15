@@ -1,3 +1,5 @@
+import java.util.concurrent.CyclicBarrier;
+
 public class MainThread {
     private long sum;
     private int threadCount;
@@ -6,6 +8,7 @@ public class MainThread {
     private int size;
     private int[] mas;
     private boolean[] partsAreCalculated;
+    private CyclicBarrier bar;
 
     MainThread(int[] mas_, int threadCount_, int partCount_)
     {
@@ -19,6 +22,12 @@ public class MainThread {
         {
             partsAreCalculated[i] = true;
         }
+        bar = new CyclicBarrier(threadCount, new Runnable() {
+            @Override
+            public void run() {
+                WakeUp();
+            }
+        });
     }
 
     public long getSum()
@@ -44,19 +53,20 @@ public class MainThread {
         }
 
         //waiting for threads to finish
-        while (finishedPartCount < partCount){
+        //while (finishedPartCount < partCount){
             try {
                 wait();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }
+        //}
+
     }
 
     synchronized public void setPartSum(long partSum){
         sum = sum + partSum;
-        finishedPartCount++;
-        notify();
+        //finishedPartCount++;
+        //notify();
     }
 
     synchronized public int GetFreePart(){
@@ -71,5 +81,20 @@ public class MainThread {
             }
         }
         return newPart;
+    }
+
+    public void AwaitBarrier()
+    {
+        try {
+            bar.await();
+        } catch (InterruptedException ex) {
+            return;
+        } catch (java.util.concurrent.BrokenBarrierException ex) {
+            return;
+        }
+    }
+    synchronized public void WakeUp()
+    {
+        notify();
     }
 }

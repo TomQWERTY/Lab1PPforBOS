@@ -14,7 +14,7 @@ public class Main {
         System.out.println(singleThreadSum);
 
         //multi thread sum calculation
-        int threadCount = 6;
+        int threadCount = 2;
         int partCount = 10;
         MainThread mainThread = new MainThread(mas, threadCount, partCount);
         mainThread.Start();
